@@ -1,13 +1,22 @@
+//import{io} from "socket.io-client";
 const socket=io("/")
-const videoGrid=document.getElementById("video-grid")
+const myVideo=document.getElementById("video-grid")
+//document.getElementsByClassName('input_video')[0];
 const peer=new Peer(undefined,{
     host:"/",
     port:"3001"
 })
 
-const myVideo=document.createElement("video")
+// const myVideo=document.createElement("video")
 myVideo.muted=true
 
+// navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia ||
+//           navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia ||
+//           navigator.mediaDevices.msGetUserMedia;
+
+
+// if (navigator.getUserMedia)
+// {
 navigator.mediaDevices.getUserMedia({
     video:true,
     audio:true
@@ -26,6 +35,7 @@ navigator.mediaDevices.getUserMedia({
         console.log("*****************************")
     })
 })
+//}
 
 peer.on("open",id=>{
     socket.emit("join-room",ROOM_ID,id) ;
@@ -39,7 +49,8 @@ function addVideoStream(video,stream){
     videoGrid.append(video)
 }
 
-function connectToNewUser(userId,stream){
+function connectToNewUser(userId,stream)
+{
     const call=peer.call(userId,stream)
     const video=document.createElement('video')
     call.on("stream",userVideoStream=>{
